@@ -1,5 +1,14 @@
 [
   {
+    "channel": "booking_latam",
+    "code": "LATAM8MI6QP",
+    "title": "8 miles + 6 qualifying points per USD",
+    "latam_miles_per_usd": 8,
+    "latam_qp_per_usd": 6,
+    "note": "Confirmed live on the LATAM banner 2026-06-07 (33% more miles promo, 'last call'). Add your LATAM Pass number at booking; miles post ~64 days after stay.",
+    "requires_login": false
+  },
+  {
     "channel": "marriott_hnv",
     "code": "CALA3X",
     "title": "3x points, Caribbean & Latin America",
@@ -9,7 +18,7 @@
     "book_by": "2026-06-26",
     "stay_by": "2026-12-31",
     "requires_login": true,
-    "source": "https://homes-and-villas.marriott.com/en/offers"
+    "note": "Stacks on your 1.75x Titanium earn. Scrape pending."
   },
   {
     "channel": "marriott_hnv",
@@ -21,12 +30,5 @@
     "stay_by": "2027-01-03",
     "requires_login": true,
     "stacks_with": ["CALA3X"]
-  },
-  {
-    "channel": "booking_latam",
-    "code": "LATAM3MI",
-    "title": "3 LATAM miles per USD",
-    "latam_miles_per_usd": 3,
-    "note": "Credits ~64 days after stay. Must book via your LATAM link."
   }
 ]

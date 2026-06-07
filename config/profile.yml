@@ -63,8 +63,10 @@ economics:
   earn_rates:
     bonvoy_base_per_usd: 5      # Homes & Villas base points per USD (confirm)
     titanium_multiplier: 1.75   # your elite earn = base +75%
-    latam_miles_per_usd: 3      # Booking.com via your LATAM link
-    latam_qp_per_usd: 6         # qualifying points per USD (your recollection, confirm)
+    latam_miles_per_usd: 8      # CONFIRMED live 7 Jun on the LATAM banner (33% more
+                                # miles promo running; base is lower, re-read each run)
+    latam_qp_per_usd: 6         # confirmed live on the LATAM banner
+    fx_mxn_per_usd: 17.42       # derived from the miles each listing quotes
 
   # While Titanium retention is at risk, each Elite Night Credit is worth this much
   # in the ranking (it protects status you would otherwise pay to keep). Drops to 0

@@ -1,12 +1,13 @@
 [
   {
-    "id": "cdmx-jul",
+    "id": "cdmx-jun30",
     "city": "Mexico City",
     "country": "MX",
-    "checkin": "2026-07-05",
-    "checkout": "2026-07-26",
+    "checkin": "2026-06-30",
+    "checkout": "2026-07-14",
     "flexible_days": 3,
     "guests": 1,
-    "status": "searching"
+    "status": "searching",
+    "note": "Current accommodation ends 30 Jun. 2-week default; a month earns more Titanium nights + monthly discount."
   }
 ]
