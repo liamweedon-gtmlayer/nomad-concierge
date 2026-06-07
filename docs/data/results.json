@@ -28,8 +28,8 @@
       "effective_weekly_usd": 695,
       "adjusted_weekly_usd": 415,
       "offers": ["1.75x Titanium", "3x offer", "+40k bonus", "+30 ENC"],
-      "taste_score": 8.4,
-      "taste_notes": "Hero photo seen: bright, big window with greenery, modern living space. Full gallery + desk check pending.",
+      "taste_score": 9.0,
+      "taste_notes": "Photo-verified (full gallery): modern, floor-to-ceiling windows, real balcony with leafy tree views, glass dining table with proper upholstered chairs to work from (not stools), bright airy bedroom. Strong match.",
       "why": "Best status-aware value AND clears 30 of your 41 Titanium nights in one booking. Monthly rate ($107/nt) beats the fortnight rate ($143/nt).",
       "is_new": true
     },
@@ -51,8 +51,8 @@
       "effective_weekly_usd": 741,
       "adjusted_weekly_usd": 461,
       "offers": ["1.75x Titanium", "3x offer", "+40k bonus", "+30 ENC"],
-      "taste_score": 8.2,
-      "taste_notes": "Escandón, exactly your area. 'Bright 2BR'. Photo taste read pending.",
+      "taste_score": 8.6,
+      "taste_notes": "Photo-verified: design-forward and modern (cognac leather, teal accents, track lighting), bright, with a dining table/work nook. In Escandón, your area. No balcony visible.",
       "why": "Same 30 Titanium nights, in the neighbourhood you already like. Slightly pricier than the Elegant unit.",
       "is_new": true
     },
@@ -74,8 +74,8 @@
       "effective_weekly_usd": 881,
       "adjusted_weekly_usd": 601,
       "offers": ["1.75x Titanium", "3x offer", "+40k bonus", "+14 ENC"],
-      "taste_score": 8.4,
-      "taste_notes": "Same unit as #1, just a fortnight. Shown so you can see the month-vs-2-weeks trade-off.",
+      "taste_score": 9.0,
+      "taste_notes": "Same (photo-verified) unit as #1, just a fortnight. Shown so you can see the month-vs-2-weeks trade-off.",
       "why": "If a month is not available, this still earns 14 Titanium nights and triggers the 40k. But per week it is far dearer than the month, and clears fewer nights.",
       "is_new": true
     },
