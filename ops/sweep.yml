@@ -1,0 +1,30 @@
+# Twice-weekly sweep: the agent runs, scores, and commits fresh recommendations.
+# Template for phase 4. Needs ANTHROPIC_API_KEY in repo secrets before enabling.
+name: sweep
+
+on:
+  schedule:
+    - cron: "0 13 * * 1,4" # Mondays and Thursdays, 13:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      # - run: npx playwright install --with-deps chromium
+      - name: Run the concierge agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run agent
+      - name: Commit refreshed recommendations
+        run: |
+          git config user.name "nomad-concierge-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/data state/
+          git commit -m "chore: refresh recommendations" || echo "no changes"
+          git push

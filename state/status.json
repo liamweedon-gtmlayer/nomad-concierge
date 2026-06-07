@@ -1,0 +1,21 @@
+{
+  "_note": "Real numbers as of 2026-06-07. Update enc_ytd and LATAM figures as they change.",
+  "marriott": {
+    "status": "Titanium",
+    "must_retain": true,
+    "enc_ytd": 34,
+    "enc_target": 75,
+    "enc_needed": 41,
+    "year_resets": "2026-12-31"
+  },
+  "latam": {
+    "current_tier": "Gold",
+    "next_tier": "Platinum",
+    "chasing": true,
+    "qualifying_points_ytd": 12254,
+    "qp_next_tier_threshold": 40000,
+    "qp_to_next_tier": 27746,
+    "miles_balance": 6126,
+    "year_resets": "2027-03-31"
+  }
+}

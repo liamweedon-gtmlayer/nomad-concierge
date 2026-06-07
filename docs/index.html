@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nomad Concierge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #0b0f17; }
+    .card-shadow { box-shadow: 0 10px 30px -12px rgba(0,0,0,0.6); }
+  </style>
+</head>
+<body class="text-slate-200 min-h-screen">
+  <div class="max-w-6xl mx-auto px-5 py-8">
+
+    <!-- Header -->
+    <header class="flex items-end justify-between flex-wrap gap-3 mb-6">
+      <div>
+        <h1 class="text-2xl font-semibold text-white">Nomad Concierge</h1>
+        <p id="trip-line" class="text-slate-400 text-sm mt-1"></p>
+      </div>
+      <span id="sample-badge" class="text-xs px-2 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30"></span>
+    </header>
+
+    <!-- Gauges -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+      <div class="rounded-2xl bg-slate-900/70 border border-slate-800 p-5 card-shadow">
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-medium text-slate-300">Marriott Titanium</h2>
+          <span class="text-xs text-slate-500">retain by 31 Dec</span>
+        </div>
+        <svg id="gauge-titanium" viewBox="0 0 300 175" class="w-full"></svg>
+        <p id="titanium-note" class="text-xs text-center text-emerald-300/90 -mt-1"></p>
+      </div>
+
+      <div class="rounded-2xl bg-slate-900/70 border border-slate-800 p-5 card-shadow">
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-medium text-slate-300">LATAM Pass</h2>
+          <span id="latam-miles" class="text-xs text-slate-500"></span>
+        </div>
+        <svg id="gauge-latam" viewBox="0 0 300 175" class="w-full"></svg>
+        <p id="latam-note" class="text-xs text-center text-sky-300/90 -mt-1"></p>
+      </div>
+    </section>
+
+    <!-- Offers -->
+    <section id="offers" class="flex flex-wrap gap-2 mb-7"></section>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-medium text-white">Recommendations</h2>
+      <div class="flex items-center gap-2 text-xs">
+        <span class="text-slate-400">Sort</span>
+        <select id="sort" class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-slate-200">
+          <option value="adjusted_weekly_usd">Best overall (status-aware)</option>
+          <option value="effective_weekly_usd">Best points value</option>
+          <option value="cash_weekly_usd">Cheapest cash</option>
+          <option value="enc_earned">Most Titanium nights</option>
+          <option value="taste_score">Best taste match</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <section id="cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></section>
+
+    <footer class="text-center text-xs text-slate-600 mt-10">
+      The agent recommends. You make the final booking so your loyalty tracking stays intact.
+    </footer>
+  </div>
+
+  <script>
+    // In production the agent writes data/results.json and the dashboard fetches it.
+    // For local / offline opening the sample is inlined as a fallback.
+    const SAMPLE = {"trip":{"id":"cdmx-jul","city":"Mexico City","checkin":"2026-07-05","checkout":"2026-07-26","nights":21},"is_sample":true,"titanium_tracker":{"enc_ytd":34,"enc_target":75,"enc_needed":41,"this_trip_adds":21},"latam_tracker":{"current_tier":"Gold","next_tier":"Platinum","qp_ytd":12254,"qp_next_threshold":40000,"qp_to_next_tier":27746,"miles_balance":6126},"active_offers":[{"title":"3x points, Caribbean & Latin America","channel":"Marriott H&V","deadline":"Book by 26 Jun 2026","urgent":true},{"title":"40,000 bonus points (spend $2,000+)","channel":"Marriott H&V","deadline":"Stay by 3 Jan 2027","urgent":false}],"recommendations":[{"id":"rec-1","channel":"Marriott H&V","title":"Modern 1BR, Roma Norte, high floor","area":"Roma Norte","photo":"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80","url":"https://homes-and-villas.marriott.com/","nights":21,"cash_total_usd":2520,"cash_weekly_usd":840,"points_earned":"87,250 Bonvoy","points_value_usd":698,"enc_earned":21,"latam_qp":0,"effective_weekly_usd":607,"adjusted_weekly_usd":327,"offers":["1.75x Titanium","3x offer","+40k bonus","+21 ENC"],"taste_score":9.1,"taste_notes":"Big windows, real desk and chair, terrace, modern reno","why":"Cheapest effectively once points land, and clears 21 of your 41 remaining Titanium nights. 3x offer expires 26 Jun.","is_new":true},{"id":"rec-2","channel":"Wynwood (direct)","title":"Modern 1BR w/ terrace, Tabacalera","area":"Tabacalera","photo":"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80","url":"https://wynwood-house.com/r/BGXJMA/","nights":21,"cash_total_usd":1638,"cash_weekly_usd":546,"points_earned":"none","points_value_usd":0,"enc_earned":0,"latam_qp":0,"effective_weekly_usd":546,"adjusted_weekly_usd":546,"offers":[],"taste_score":8.7,"taste_notes":"Real reference place: modern, private terrace, gym, central. Direct it earns nothing.","why":"Cheapest cash and a known-good building, but direct it earns no points and no Titanium nights. Check if it is also on Marriott H&V.","is_new":true},{"id":"rec-3","channel":"Booking.com / LATAM","title":"1BR with city view, Cuauhtemoc","area":"Cuauhtemoc","photo":"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80","url":"https://sp.booking.com/index.html?aid=2441557&label=br_latamtravel-booking_latampass_reservar-hotel","nights":21,"cash_total_usd":2310,"cash_weekly_usd":770,"points_earned":"6,930 LATAM miles","points_value_usd":90,"enc_earned":0,"latam_qp":13860,"effective_weekly_usd":740,"adjusted_weekly_usd":717,"offers":["LATAM 3mi/$","+13,860 QP"],"taste_score":8.4,"taste_notes":"Good view, desk fine, area slightly out","why":"Best for the LATAM climb (13,860 QP toward Platinum), but does nothing for Titanium. Better once your 75 nights are secured.","is_new":true}]};
+
+    const usd = n => "$" + Math.round(n).toLocaleString();
+
+    // ---- Speedometer gauge ----
+    const pt = (cx, cy, r, ang) => {
+      const a = (ang * Math.PI) / 180;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    };
+    function arcPath(cx, cy, r, a0, a1) {
+      const steps = Math.max(2, Math.round(Math.abs(a1 - a0) / 3));
+      let d = "";
+      for (let i = 0; i <= steps; i++) {
+        const ang = a0 + ((a1 - a0) * i) / steps;
+        const [x, y] = pt(cx, cy, r, ang);
+        d += (i === 0 ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1) + " ";
+      }
+      return d.trim();
+    }
+    // Map a 0..1 fraction to the 180deg (left) .. 360deg (right) sweep, over the top.
+    const ang = f => 180 + 180 * Math.max(0, Math.min(1, f));
+
+    function drawGauge(svgId, value, max, bigLabel, subLabel) {
+      const cx = 150, cy = 150, r = 112, w = 18;
+      const f = Math.max(0, Math.min(1, value / max));
+      const zones = [
+        { from: 0.0, to: 0.5, color: "#f43f5e" }, // behind
+        { from: 0.5, to: 0.8, color: "#f59e0b" }, // close
+        { from: 0.8, to: 1.0, color: "#10b981" }, // on track
+      ];
+      const dial = zones.map(z =>
+        `<path d="${arcPath(cx, cy, r, ang(z.from), ang(z.to))}" fill="none" stroke="${z.color}" stroke-opacity="0.30" stroke-width="${w}" stroke-linecap="butt"/>`
+      ).join("");
+      // value arc
+      const valArc = `<path d="${arcPath(cx, cy, r, ang(0), ang(f))}" fill="none" stroke="#e2e8f0" stroke-width="6" stroke-linecap="round"/>`;
+      // needle
+      const [nx, ny] = pt(cx, cy, r - 26, ang(f));
+      const needle = `<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+                      <circle cx="${cx}" cy="${cy}" r="6" fill="#ffffff"/>`;
+      const ends = `<text x="${cx - r}" y="${cy + 16}" fill="#64748b" font-size="11" text-anchor="middle">0</text>
+                    <text x="${cx + r}" y="${cy + 16}" fill="#64748b" font-size="11" text-anchor="middle">${max.toLocaleString()}</text>`;
+      const center = `<text x="${cx}" y="${cy - 36}" fill="#ffffff" font-size="34" font-weight="700" text-anchor="middle">${bigLabel}</text>
+                      <text x="${cx}" y="${cy - 14}" fill="#94a3b8" font-size="12" text-anchor="middle">${subLabel}</text>`;
+      document.getElementById(svgId).innerHTML = dial + valArc + needle + ends + center;
+    }
+
+    function badge(text, kind) {
+      const styles = {
+        offer: "bg-violet-500/15 text-violet-300 border-violet-500/30",
+        enc: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+        neutral: "bg-slate-700/40 text-slate-300 border-slate-600/40",
+      };
+      return `<span class="text-[11px] px-2 py-0.5 rounded-full border ${styles[kind] || styles.neutral}">${text}</span>`;
+    }
+
+    function render(data) {
+      document.getElementById("trip-line").textContent =
+        `${data.trip.city} · ${data.trip.checkin} to ${data.trip.checkout} · ${data.trip.nights} nights`;
+      document.getElementById("sample-badge").textContent = data.is_sample ? "SAMPLE DATA" : "LIVE";
+
+      const t = data.titanium_tracker;
+      drawGauge("gauge-titanium", t.enc_ytd, t.enc_target, `${t.enc_ytd}/${t.enc_target}`, "Elite nights");
+      document.getElementById("titanium-note").textContent =
+        `${t.enc_needed} to retain · top pick adds ${t.this_trip_adds} → ${t.enc_needed - t.this_trip_adds} left.`;
+
+      const l = data.latam_tracker;
+      drawGauge("gauge-latam", l.qp_ytd, l.qp_next_threshold, l.current_tier, `to ${l.next_tier}`);
+      document.getElementById("latam-miles").textContent = `${l.miles_balance.toLocaleString()} miles`;
+      document.getElementById("latam-note").textContent =
+        `${l.qp_to_next_tier.toLocaleString()} qualifying points to ${l.next_tier} (${l.qp_next_threshold.toLocaleString()}).`;
+
+      document.getElementById("offers").innerHTML = data.active_offers.map(o =>
+        `<div class="rounded-xl border ${o.urgent ? 'border-rose-500/40 bg-rose-500/5' : 'border-slate-800 bg-slate-900/50'} px-3 py-2 text-sm">
+           <span class="font-medium text-white">${o.title}</span>
+           <span class="text-slate-400"> · ${o.channel} · </span>
+           <span class="${o.urgent ? 'text-rose-300' : 'text-slate-400'}">${o.deadline}</span>
+         </div>`).join("");
+
+      drawCards(data.recommendations);
+    }
+
+    let current = [];
+    function drawCards(recs) {
+      current = recs;
+      const sortKey = document.getElementById("sort").value;
+      const desc = sortKey === "taste_score" || sortKey === "enc_earned";
+      const sorted = [...recs].sort((a, b) => desc ? b[sortKey] - a[sortKey] : a[sortKey] - b[sortKey]);
+
+      document.getElementById("cards").innerHTML = sorted.map((r, i) => `
+        <article class="rounded-2xl overflow-hidden bg-slate-900/70 border border-slate-800 card-shadow flex flex-col">
+          <div class="relative">
+            <img src="${r.photo}" alt="" class="w-full h-44 object-cover" />
+            ${i === 0 ? `<span class="absolute top-2 left-2 text-[11px] px-2 py-0.5 rounded-full bg-white text-slate-900 font-semibold">TOP PICK</span>` : ""}
+            ${r.is_new ? `<span class="absolute top-2 right-2 text-[11px] px-2 py-0.5 rounded-full bg-sky-500 text-white">NEW</span>` : ""}
+          </div>
+          <div class="p-4 flex flex-col gap-2 flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">${r.channel}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">taste ${r.taste_score}</span>
+            </div>
+            <h3 class="text-white font-medium leading-snug">${r.title}</h3>
+            <div class="flex flex-wrap gap-1.5">
+              ${(r.offers || []).map(o => badge(o, o.includes("ENC") ? "enc" : "offer")).join("")}
+            </div>
+            <div class="flex items-end justify-between mt-1">
+              <div>
+                <div class="text-2xl font-semibold text-white">${usd(r.adjusted_weekly_usd)}<span class="text-sm text-slate-400 font-normal">/wk effective</span></div>
+                <div class="text-xs text-slate-500 line-through">${usd(r.cash_weekly_usd)}/wk cash</div>
+              </div>
+              <div class="text-right text-xs text-slate-400">
+                ${r.enc_earned ? `<div class="text-emerald-300">+${r.enc_earned} Titanium nights</div>` : ""}
+                <div>${r.points_earned}</div>
+              </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">${r.why}</p>
+            <a href="${r.url}" target="_blank" rel="noopener"
+               class="mt-auto text-center text-sm font-medium bg-white text-slate-900 rounded-lg py-2 hover:bg-slate-200 transition">
+              View &amp; book →
+            </a>
+          </div>
+        </article>`).join("");
+    }
+
+    async function load() {
+      try {
+        const res = await fetch("data/results.json", { cache: "no-store" });
+        if (res.ok) return await res.json();
+      } catch (_) {}
+      return SAMPLE;
+    }
+
+    document.getElementById("sort").addEventListener("change", () => drawCards(current));
+    load().then(render);
+  </script>
+</body>
+</html>

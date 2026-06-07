@@ -1,0 +1,32 @@
+[
+  {
+    "channel": "marriott_hnv",
+    "code": "CALA3X",
+    "title": "3x points, Caribbean & Latin America",
+    "bonvoy_multiplier": 3,
+    "min_nights": 5,
+    "region": "LATAM",
+    "book_by": "2026-06-26",
+    "stay_by": "2026-12-31",
+    "requires_login": true,
+    "source": "https://homes-and-villas.marriott.com/en/offers"
+  },
+  {
+    "channel": "marriott_hnv",
+    "code": "40K",
+    "title": "40,000 bonus points",
+    "bonus_points": 40000,
+    "min_spend_usd": 2000,
+    "min_nights": 2,
+    "stay_by": "2027-01-03",
+    "requires_login": true,
+    "stacks_with": ["CALA3X"]
+  },
+  {
+    "channel": "booking_latam",
+    "code": "LATAM3MI",
+    "title": "3 LATAM miles per USD",
+    "latam_miles_per_usd": 3,
+    "note": "Credits ~64 days after stay. Must book via your LATAM link."
+  }
+]

@@ -1,0 +1,90 @@
+# Set once. This is what makes the agent yours.
+
+taste:
+  # Hard gates: a listing is excluded if it fails any of these.
+  hard_gates:
+    - modern            # not dated or worn
+    - work_surface      # a real table/desk and a comfortable chair, not a breakfast
+                        # bar with stools, not a shelf in a dark corner, not plastic chairs
+    - natural_light
+    - kitchen
+
+  # Soft weights: contribute to the 0-10 taste score. Should sum to ~1.0.
+  soft_weights:
+    big_windows: 0.16
+    view: 0.18
+    high_floor: 0.12
+    balcony_terrace: 0.16
+    modern_interior: 0.14
+    area_quality: 0.12
+    work_amenities: 0.12   # gym, cowork, rooftop, pool in the building
+
+  # Reference stays that define "good". Built from the links you sent.
+  # Pattern: modern, light-filled, often a balcony/terrace or a real view, frequently
+  # two-floor / loft / maisonette layouts, and buildings with gym + cowork + rooftop.
+  # Nice-but-not-flashy central neighbourhoods (Barranco, San Isidro, Reforma, Escandon).
+  references:
+    - url: "https://homes-and-villas.marriott.com/en/properties/40236838-ciudad-de-mexico-casa-reforma-by-property-manager"
+      liked: true
+      notes: "Marriott H&V, CDMX Reforma. Central, modern."
+    - url: "https://homes-and-villas.marriott.com/en/properties/40447362-lima-radiant-1br-with-fantastic-view-in-barranco"
+      liked: true
+      notes: "Marriott H&V, Lima Barranco. Fantastic view = high signal."
+    - url: "https://homes-and-villas.marriott.com/en/properties/40434976-san-isidro-sensational-1br-w-perfect-balcony-in-san-isidro"
+      liked: true
+      notes: "Marriott H&V, Lima San Isidro. Balcony = high signal."
+    - url: "https://homes-and-villas.marriott.com/en/properties/40236715-barranco-picturesque-loft-in-the-heart-of-barranco"
+      liked: true
+      notes: "Marriott H&V, Lima Barranco loft."
+    - url: "https://wynwood-house.com/r/BGXJMA/"
+      liked: true
+      notes: "Wynwood, CDMX Tabacalera. Modern, private terrace, gym, ~$78/nt, 45% monthly discount. Canonical 'good'."
+    - url: "https://www.booking.com/hotel/co/cozy-apartment-w-pool-gym-cowork-and-rooftop"
+      liked: true
+      notes: "Colombia. Pool + gym + cowork + rooftop = the building-amenity profile you like."
+    - url: "https://www.booking.com/hotel/co/bestay-edificio-tribeca"
+      liked: true
+      notes: "Colombia. Deluxe two-floor / maisonette room. Two-floor layout = high signal."
+    - url: "https://www.booking.com/hotel/py/modern-2-floor-apartment-just-5-mins-from-corporate-center"
+      liked: true
+      notes: "Paraguay. Modern, two-floor."
+    - url: "https://www.booking.com/hotel/py/the-station-morra-1-102"
+      liked: true
+      notes: "Paraguay, Asuncion."
+
+economics:
+  # Cents per point, in USD. Tune these. Illustrative defaults below.
+  point_values_usd:
+    bonvoy: 0.008
+    latam_miles: 0.013
+    avios: 0.013
+
+  # Earn rates. Confirm against your own accounts.
+  earn_rates:
+    bonvoy_base_per_usd: 5      # Homes & Villas base points per USD (confirm)
+    titanium_multiplier: 1.75   # your elite earn = base +75%
+    latam_miles_per_usd: 3      # Booking.com via your LATAM link
+    latam_qp_per_usd: 6         # qualifying points per USD (your recollection, confirm)
+
+  # While Titanium retention is at risk, each Elite Night Credit is worth this much
+  # in the ranking (it protects status you would otherwise pay to keep). Drops to 0
+  # once you hit 75 ENC.
+  enc_value_usd_while_needed: 40
+  # While chasing the next LATAM tier, each qualifying point is worth this in ranking.
+  qp_value_usd_while_chasing: 0.005
+
+  channel_order:
+    - marriott_hnv
+    - booking_latam
+    - wynwood_direct
+    - airbnb
+
+  # Your LATAM Booking.com link, cleaned back to the standard form (tracking params
+  # only). The agent appends &ss=<city>&checkin=...&checkout=... for each search so the
+  # affiliate attribution is preserved. Add your LATAM Pass number at/after booking.
+  booking_latam_base_url: "https://sp.booking.com/index.html?aid=2441557&label=br_latamtravel-booking_latampass_reservar-hotel"
+  booking_latam_alt_url: "https://sp.booking.com/index.html?aid=2441573&label=us_pass-partner-page_banner_hotels"
+
+  budget:
+    target_weekly_usd: 350
+    ceiling_weekly_usd: 600     # soft ceiling, options above are flagged not dropped

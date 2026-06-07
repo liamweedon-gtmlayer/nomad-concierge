@@ -1,0 +1,15 @@
+{
+  "name": "nomad-concierge",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A personal travel concierge agent: taste, points, and status-aware stay recommendations.",
+  "type": "module",
+  "scripts": {
+    "agent": "tsx agent/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}

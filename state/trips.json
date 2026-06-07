@@ -1,0 +1,12 @@
+[
+  {
+    "id": "cdmx-jul",
+    "city": "Mexico City",
+    "country": "MX",
+    "checkin": "2026-07-05",
+    "checkout": "2026-07-26",
+    "flexible_days": 3,
+    "guests": 1,
+    "status": "searching"
+  }
+]
